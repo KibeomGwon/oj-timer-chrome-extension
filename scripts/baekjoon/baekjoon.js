@@ -8,7 +8,6 @@ if (!isNull(username)) {
     if (['status', `user_id=${username}`, 'problem_id', 'from_mine=1'].every((key) => currentUrl.includes(key))) {
         console.log('로그인 되어있습니다.');
         if (isExistResultTable()) {
-            console.log('제출 번호를 출력합니다.');
             backgroundFunction();
         }
     }

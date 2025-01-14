@@ -186,3 +186,22 @@ function convertResultTableHeader(header) {
             return 'unknown';
     }
 }
+
+function formatDateString(inputDate) {
+    // Step 1: 한글 날짜 문자열을 파싱하여 개별 요소 추출
+    const regex = /(\d{4})년 (\d{1,2})월 (\d{1,2})일 (\d{1,2}):(\d{1,2}):(\d{1,2})/;
+    const match = inputDate.match(regex);
+
+    if (!match) {
+        throw new Error("Invalid date format");
+    }
+
+    // Step 2: 추출된 문자열을 숫자로 변환
+    const [_, year, month, day, hours, minutes, seconds] = match;
+
+    // Step 3: ISO 8601 형식으로 포맷팅
+    const formattedDate = new Date(year, month - 1, day, hours, minutes, seconds).toISOString();
+
+    // Step 4: ISO 형식에서 날짜와 시간 부분만 반환
+    return formattedDate.slice(0, 19);
+}
