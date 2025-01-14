@@ -3,13 +3,26 @@
   "name": "oj timer",
   "version": "1.0.0",
   "description": "A basic example extension with only required keys",
+
+  "permissions" : [
+  	"tabs"
+  ],
+
+  "host_permissions": [
+    "https://solved.ac/api/v3/*",
+    "https://www.acmicpc.net/",
+    "https://school.programmers.co.kr/"
+  ],
+
   "action" :
   {
     "default_popup" : "popup.html"
   },
+
   "background" : {
     "service_worker" : "background.js"
   },
+
   "web_accessible_resources" : [
     {
       "matches" : [
@@ -20,6 +33,7 @@
       ]
     }
   ],
+
   "content_scripts" : [
     {
       "matches" : [
@@ -30,7 +44,7 @@
         "scripts/baekjoon/variables.js",
         "scripts/baekjoon/upload.js",
         "scripts/baekjoon/utils.js",
-        "scripts/baekjoon/testinbaekjoon.js"
+        "scripts/baekjoon/baekjoon.js"
       ],
       "run_at": "document_idle"
     }

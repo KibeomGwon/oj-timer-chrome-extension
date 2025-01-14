@@ -24,7 +24,7 @@ function findFromResultTable() {
         return [];
     }
 
-    return parsingResultTableList(document);
+    return parsingSuccessResultTableList(document);
 }
 
 /**
@@ -34,7 +34,7 @@ function findFromResultTable() {
  * @param doc 
  * @returns array
  */
-function parsingResultTableList(doc) {
+function parsingSuccessResultTableList(doc) {
     const table = doc.getElementById('status-table');
     const list = [];
 
@@ -83,6 +83,7 @@ function parsingResultTableList(doc) {
             }
             obj.elementId = row.id;
             obj = { ...obj, ...obj.result, ...obj.problemId };  // obj.result = { result, resultCategory }, obj.problemId = { problemId }
+           
             list.push(obj);
         }
     }
@@ -90,7 +91,70 @@ function parsingResultTableList(doc) {
     return list;
 }
 
+function isSucceed() {
+    const firstRow = parsingResultTableList(document)[0];
 
+    if (firstRow.hasOwnProperty('username') && firstRow.hasOwnProperty('resultCategory')) {
+        if (firstRow.username === findUsername() && firstRow.resultCategory === RESULT_CATEGORY.RESULT_ACCEPTED) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+/**
+ * 결과 테이블의 모든 행을 받아오는 함수
+ * 첫 번째 행이 성공했는 지 여부를 확인하기 위해 테이블 데이터를 파싱
+ * @param {document} doc 
+ * @returns 
+ */
+function parsingResultTableList(doc) {
+    const table = doc.getElementById('status-table');
+    if (table === null || table === undefined || table.length === 0) return [];
+    const headers = Array.from(table.rows[0].cells, (x) => convertResultTableHeader(x.innerText.trim()));
+
+    const list = [];
+    for (let i = 1; i < table.rows.length; i++) {
+        const row = table.rows[i];
+        const cells = Array.from(row.cells, (x, index) => {
+            switch (headers[index]) {
+                case 'result':
+                    return { result: x.innerText.trim(), resultCategory: x.firstChild.getAttribute('data-color').replace('-eng', '').trim() };
+                case 'language':
+                    return x.innerText.unescapeHtml().replace(/\/.*$/g, '').trim();
+                case 'submissionTime':
+                    const el = x.querySelector('a.show-date');
+                    if (isNull(el)) return null;
+                    return el.getAttribute('data-original-title');
+                case 'problemId':
+                    const a = x.querySelector('a.problem_title');
+                    if (isNull(a)) return null;
+                    return {
+                        // 마지막 숫자 배열 만 추출하는 동작
+                        problemId: a.getAttribute('href').replace(/^.*\/([0-9]+)$/, '$1'),
+                    };
+                default:
+                    return x.innerText.trim();
+            }
+        });
+
+        let obj = {};
+        obj.elementId = row.id;
+        for (let j = 0; j < headers.length; j++) {
+            obj[headers[j]] = cells[j];
+        }
+        obj = { ...obj, ...obj.result, ...obj.problemId };
+        list.push(obj);
+    }
+
+    return list;
+}
+
+async function fetchSolvedACById(problemId) {
+    return chrome.runtime.sendMessage({sender: "baekjoon", task : "SolvedApiCall", problemId : problemId});
+}
 
 function convertResultTableHeader(header) {
     switch (header) {

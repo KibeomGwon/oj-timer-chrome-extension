@@ -25,18 +25,22 @@ async function uploadToServer(datas) {
     //     }).catch(error => console.log(err));
     // }  
     for (let i = 0; i < datas.length; i++) {
-        const parsedData = parseDataToServerDataForm(datas[i]);
+        const parsedData = await parseDataToServerDataForm(datas[i]);
         console.log(JSON.stringify(parsedData));
     }  
 }
 
-function parseDataToServerDataForm(data) {
+async function parseDataToServerDataForm(data) {
+    const {level, titleKo} = await fetchSolvedACById(data.problemId);
+
     return { 
         elementId : data.elementId, 
-        language : data.language,
+        language : languages[data.language],
         problemId : data.problemId,
         submissionTime : data.submissionTime,
         username : data.username,
-        level: data.level
+        level: bj_level[level],
+        title: titleKo,
+        link : `https://www.acmicpc.net/problem/${data.problemId}`
     }
 }
