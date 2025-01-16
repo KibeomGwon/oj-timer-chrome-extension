@@ -17,13 +17,18 @@ if (!isNull(username)) {
 
 function backgroundFunction() {
     thread = setInterval(async () => {
-        if (isExistResultTable()) {
+        const act = await isActive();
+        
+        if(act === false) {
+            stopBackgroundFunction();
+            console.log("비 활성화 상태입니다.");
+        }
+        else if (isExistResultTable()) {
             if (isSucceed()) {
                 const table = findFromResultTable();    
                 console.log('<oj timer> 업로드를 시작합니다.');
                 stopBackgroundFunction();
                 await uploadToServer(table);
-                // logSubmittionId();
             }
         }
     }, 2000);

@@ -5,7 +5,8 @@
   "description": "A basic example extension with only required keys",
 
   "permissions" : [
-  	"tabs"
+  	"tabs",
+    "storage"
   ],
 
   "host_permissions": [
