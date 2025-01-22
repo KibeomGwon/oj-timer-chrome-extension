@@ -6,8 +6,8 @@ window.onload = async function () {
   const stopButton = document.getElementById("stop-button");
   stopButton.onclick = clickStop;
 
-  const testButton = document.getElementById("test-button");
-  testButton.addEventListener("click", testFunction);
+  const homePageButton = document.getElementById("home-page-link");
+  homePageButton.onclick = clickHomePageDiv;
 };
 
 async function init() {
@@ -23,6 +23,18 @@ async function init() {
       el.innerText = "정지 중";
     } else {
       el.innerText = "실행 중";
+    }
+  });
+
+  chrome.storage.local.get("accessToken", async (result) => {
+    const el = document.getElementById("authentication-status");
+
+    if (result.accessToken !== undefined || result.accessToken !== null) {
+      const isLogin = await isAuthenticated(result.accessToken);
+      if (isLogin) {
+        console.log("로그인 되어 있습니다.");
+        el.innerText = "로그인";
+      }
     }
   });
 }
@@ -43,4 +55,24 @@ function clickStop() {
 
 function testFunction() {
   chrome.storage.local.get((result) => console.log(result));
+}
+
+function clickHomePageDiv() {
+  window.open("http://localhost:8080");
+}
+
+async function isAuthenticated(accessToken) {
+  console.log(accessToken);
+
+  const response = await fetch("http://localhost:8080/api/authorization", {
+    method: "get",
+
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-type": "application/json",
+      "Cookie" : ""
+    },
+  });
+
+  return response.ok;
 }

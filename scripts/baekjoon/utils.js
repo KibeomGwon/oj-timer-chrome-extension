@@ -206,11 +206,3 @@ function formatDateString(inputDate) {
     return formattedDate.slice(0, 19);
 }
 
-/**
- * storage.local에 isActive가 true인지 false 인지
- * 실행을 체크했는지 안 했는지 확인해주는 함수
- * @return boolean
- */
-async function isActive() {
-    return await chrome.storage.local.get('isActive').then((result) => result.isActive);
-}

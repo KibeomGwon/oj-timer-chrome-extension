@@ -42,12 +42,23 @@
       ],
       "js" : [
         "scripts/utils.js",
+        "scripts/authorization.js",
         "scripts/baekjoon/variables.js",
         "scripts/baekjoon/upload.js",
         "scripts/baekjoon/utils.js",
         "scripts/baekjoon/baekjoon.js"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches" : [
+        "http://localhost:8080/*"
+      ],
+      "js" : [
+        "scripts/authorization.js",
+        "scripts/mainPage.js"
+      ],
+      "run_at" : "document_idle"
     }
   ]
 }
