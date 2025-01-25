@@ -81,7 +81,15 @@ String.prototype.unescapeHtml = function () {
  * @return boolean
  */
 async function isActive() {
-  return await chrome.storage.local.get('isActive').then((result) => result.isActive);
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get("isActive", (result) => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(result.isActive);
+      }
+    });
+  });
 }
 
 function goMainPage() { 

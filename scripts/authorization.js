@@ -40,7 +40,7 @@ async function refreshTokens() {
     alert("로그인을 다시해야 합니다.");
     await storeCurrentUrl();
     goMainPage();
-    return;
+    return false;
   }
 
   const { accessToken, refreshToken } = await response.json();
@@ -48,4 +48,6 @@ async function refreshTokens() {
   chrome.storage.local.set({ accessToken: accessToken }, () => {});
 
   chrome.storage.local.set({ refreshToken: refreshToken }, () => {});
+
+  return true;
 }

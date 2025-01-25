@@ -187,22 +187,20 @@ function convertResultTableHeader(header) {
     }
 }
 
-function formatDateString(inputDate) {
-    // Step 1: 한글 날짜 문자열을 파싱하여 개별 요소 추출
+function formatDateString(input) {
+    // 문자열을 분리해서 필요한 부분 추출
     const regex = /(\d{4})년 (\d{1,2})월 (\d{1,2})일 (\d{1,2}):(\d{1,2}):(\d{1,2})/;
-    const match = inputDate.match(regex);
+    const match = input.match(regex);
 
     if (!match) {
-        throw new Error("Invalid date format");
+        throw new Error("입력 형식이 올바르지 않습니다.");
     }
 
-    // Step 2: 추출된 문자열을 숫자로 변환
-    const [_, year, month, day, hours, minutes, seconds] = match;
+    const [_, year, month, day, hour, minute, second] = match;
 
-    // Step 3: ISO 8601 형식으로 포맷팅
-    const formattedDate = new Date(year, month - 1, day, hours, minutes, seconds).toISOString();
+    // Java의 LocalDateTime 형식 문자열로 변환
+    const localDateTime = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T${hour.padStart(2, '0')}:${minute.padStart(2, '0')}:${second.padStart(2, '0')}`;
 
-    // Step 4: ISO 형식에서 날짜와 시간 부분만 반환
-    return formattedDate.slice(0, 19);
+    return localDateTime;
 }
 

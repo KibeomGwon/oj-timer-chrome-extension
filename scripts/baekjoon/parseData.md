@@ -8,6 +8,6 @@
 
 - 입력될 객체 양식<br>
 
-|elementId|language|problemId|submissionTime|username|level|title|link|
+|elementId|language|problemId|submissionTime|username|level|title|link|site|
 |---|---|---|---|---|---|---|---|
-|"solution-79734608"|"Java 11"|"1005"|"2024년 6월 17일 19:40:33"|"rrq0211"|'Gold III'|'ACM Craft'|'https://www.acmicpc.net/problem/1005'|
+|"solution-79734608"|"Java 11"|"1005"|"2024년 6월 17일 19:40:33"|"rrq0211"|'Gold III'|'ACM Craft'|'https://www.acmicpc.net/problem/1005'|"baekjoon"|

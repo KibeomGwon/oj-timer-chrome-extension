@@ -21,6 +21,9 @@ async function isUploadedProblemOnServer(problem) {
  *  TODO : 에러 처리를 어떻게 할 것인지, modal로 업로드 됐는 지 확인창 띄우기.
  */
 async function uploadToServer(datas) {
+    const isContinue = await refreshTokens();
+    if (isContinue === false) return;
+
     for (let i = 0; i < datas.length; i++) {
         const response = await isUploadedProblemOnServer(datas[i]);
         const parsedData = await parseDataToServerDataForm(datas[i]);
@@ -28,16 +31,9 @@ async function uploadToServer(datas) {
 
         if (response.ok) {
             console.log(`${datas[i].elementId}는 이미 저장되었습니다.`);        
-        } else if (response.status === 401) {
-            await refreshTokens();
-            if(await isUploadedProblemOnServer(datas[i])) {
-                console.log(`${datas[i].elementId}는 이미 저장되었습니다.`);   
-            } else {
-                await postData(parsedData);
-            }
-        } else if (response.status === 404) {
+        } else {
             await postData(parsedData);
-        } 
+        }
     }  
 }
 
@@ -54,16 +50,10 @@ async function postData(data) {
     })
     .catch(error => console.error(error));
 
-    if (response.status === 401) {
-
-        await refreshTokens();
-        alert("need to refresh (F5)");
-        return;
-
-    } else if (response.ok) {
+    if (response.ok) {
         const data = await response.json();
         console.log(data.problemTitle);
-        alert("저장완료");
+        alert("<oj timer> : 저장완료");
     }
 }
 
@@ -81,13 +71,5 @@ async function parseDataToServerDataForm(data) {
         link : `https://www.acmicpc.net/problem/${data.problemId}`,
         site : "baekjoon"
     }
-}
-
-function successToUpload() {
-    alert("문제 업로드에 성공했습니다.");
-}
-
-function unauthorize() {
-    alert("인증되지 않았습니다.");
 }
 
