@@ -6,7 +6,9 @@ function isProblemPage(document) {
     return result;
 }
 
-let thread;
+let backgroundThread;
+
+let modalThread;
 
 window.onload = async () => {
     if (isProblemPage(document)) {
@@ -17,7 +19,7 @@ window.onload = async () => {
 
 async function initializer() {
     setTimeout(async () => {
-        const active = isActive();
+        const active = await isActive();
         if (active === false) {
             console.log("비활성화 상태입니다.");
         } else {
@@ -32,26 +34,36 @@ async function initializer() {
 }
 
 function backgroundFunction() {
-    thread = setInterval(async () => {
-        const active = isActive();
+    backgroundThread = setInterval(async () => {
+        const active = await isActive();
         if (active === false) {
             stopBackgroundFunction();
             console.log("비활성화 상태입니다.");
         } else {
             if (isSucceed()) {
-                console.log("<oj timer> 업로드를 시작합니다.");
                 stopBackgroundFunction();
-                const table = parseData();
-                const results = await uploadToServer(table);
-                if (results.every(result => result)) {
-                    alert("<oj timer> : 업로드 완료!");
-                } 
+                modalThread = setInterval(async () => {
+                    if (isClosedModal()) {
+                        stopModalThread();
+                        refreshPage();
+                    }
+                })
             }
         }
     }, 2000);
 }
 
 function stopBackgroundFunction() {
-    clearInterval(thread);
-    thread = null;
+    clearInterval(backgroundThread);
+    backgroundThread = null;
+}
+
+function stopModalThread() {
+    clearInterval(modalThread);
+    modalThread = null;
+}
+
+function isClosedModal() {
+    const modal = document.querySelector("#modal-dialog").getAttribute("style");
+    return modal.includes("none");
 }
