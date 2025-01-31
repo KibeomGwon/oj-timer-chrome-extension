@@ -1,0 +1,76 @@
+/* 전체 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+    width: 300px; /* 팝업 크기 */
+    text-align: center;
+}
+
+/* 제목 스타일 */
+h1 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+/* 상태 표시 영역 */
+#authentication {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+#authentication-status {
+    font-weight: bold;
+    color: #d9534f; /* 기본값: 로그아웃 (빨간색) */
+}
+
+#authentication-status.logged-in {
+    color: #28a745; /* 로그인 상태일 때 (초록색) */
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* 시작 & 종료 버튼 스타일 */
+#start-button {
+    background-color: #28a745; /* 초록색 */
+}
+
+#start-button:hover {
+    background-color: #218838;
+}
+
+#stop-button {
+    background-color: #dc3545; /* 빨간색 */
+}
+
+#stop-button:hover {
+    background-color: #c82333;
+}
+
+/* 시작/정지 상태 텍스트 */
+#start-stop-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 15px 0;
+}

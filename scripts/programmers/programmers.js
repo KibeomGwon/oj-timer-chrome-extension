@@ -30,7 +30,7 @@ async function initializer() {
                         alert("<oj timer> : 업로드 완료!");
                 }
         }
-    }, 2000);
+    }, 1000);
 }
 
 function backgroundFunction() {
@@ -43,11 +43,12 @@ function backgroundFunction() {
             if (isSucceed()) {
                 stopBackgroundFunction();
                 modalThread = setInterval(async () => {
+                    // 정답 modal이 꺼지면 page refresh를 통해서 initializer()이 동작하게 함.
                     if (isClosedModal()) {
                         stopModalThread();
                         refreshPage();
                     }
-                })
+                }, 100);
             }
         }
     }, 2000);
