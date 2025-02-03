@@ -8,29 +8,17 @@ function parseData() {
   .map(el => {
     return {
       submissionTime : `${el.properties.created_at}`.split('.')[0],
-      language : el.properties.language,
-      problemId : el.properties.lesson_id
     }
   });
   
-  const title = document.querySelector('.algorithm-title .challenge-title').textContent.replace(/\\n/g, '').trim();
-
-  const username = document.querySelector('head > script#__hackle-init-info').getAttribute('data-user-id');
-
-  const level = document.querySelector('body > div.main > div.lesson-content').getAttribute("data-challenge-level")
-
-  const link = document.location.href;
+  const dataEtc = getDataEtc();
 
   const dataList = [];
 
   successList.forEach(el => {
     const li = {
-      elementId : `${el.problemId}${username}${getNumberStr(`${el.submissionTime}`)}`,
-      title : title,
-      username : findUsername(),
-      level : level,
-      link : link,
-      site : "programmers",
+      elementId : `${dataEtc.problemId}${getNumberStr(dataEtc.username)}${getNumberStr(`${el.submissionTime}`)}`,
+      ...dataEtc,
       ...el
     };
 
@@ -60,4 +48,56 @@ function isSucceed() {
 function findUsername() {
   const username = document.querySelector('head > script#__hackle-init-info').getAttribute('data-user-id');
   return "programmers" + username;
+}
+
+
+function getDataEtc() {
+  const title = document.querySelector('.algorithm-title .challenge-title').textContent.replace(/\\n/g, '').trim();
+
+  const level = document.querySelector('body > div.main > div.lesson-content').getAttribute("data-challenge-level");
+
+  const problemId = document.querySelector('div.main > div.lesson-content').getAttribute('data-lesson-id');
+
+  const language = document.querySelector('div#tour7 > button').textContent.trim();
+
+  const link = document.location.href;
+
+  return {
+    title : title,
+    username : findUsername(),
+    level : level,
+    link : link,
+    site : "programmers",
+    problemId : problemId,
+    language : language
+  };
+}
+
+function getSingleParseData() {
+  const dataEtc = getDataEtc();
+  
+  const submissionTime = getLocalDateTimeWithTimezone();
+
+  const elementId = `${dataEtc.problemId}${getNumberStr(dataEtc.username)}${getNumberStr(`${submissionTime}`)}`;
+
+  return {
+    ...dataEtc,
+    submissionTime : submissionTime,
+    elementId : elementId
+  }
+}
+
+function getLocalDateTimeWithTimezone(timeZone = 'Asia/Seoul') {
+  const now = new Date();
+  
+  return new Intl.DateTimeFormat('sv-SE', {
+      timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+  }).format(now);
 }

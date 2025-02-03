@@ -8,6 +8,8 @@ window.onload = async function () {
 
   const homePageButton = document.getElementById("home-page-link");
   homePageButton.onclick = clickHomePageDiv;
+
+  chrome.storage.local.get('refreshToken', (result) => console.log('refresh, ', result.refreshToken));
 };
 
 async function init() {
@@ -77,3 +79,5 @@ async function isAuthenticated(accessToken) {
 
   return response.ok;
 }
+
+

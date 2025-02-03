@@ -21,7 +21,7 @@ async function isUploadedProblemOnServer(problem) {
 
 
 async function uploadToServer(table) {
-    const isContinue = await refreshTokens();
+    const isContinue = await refreshTokens("다시 로그인 해야합니다.");
     
     if(isContinue === false) return;
 
@@ -29,8 +29,6 @@ async function uploadToServer(table) {
 
     for (let i = 0; i < table.length; i++) {
         const response = await isUploadedProblemOnServer(table[i]);
-
-        console.log(response.status);
 
         if (response.ok) {
             console.log(`문제 ${table[i].elementId}는 이미 저장되었습니다.`);
@@ -60,4 +58,18 @@ async function postData(data) {
         return true;
     }
     return false;
+}
+
+async function uploadSingleDataToServer(data) {
+    const isContinue = await refreshTokens("다시 로그인 해야합니다. \n로그인 후 다시 제출 해주십시오.");
+
+    if (isContinue === false) return;
+
+    const res = await isUploadedProblemOnServer(data);
+
+    if(res.ok) {
+        console.log(`${data.problemId}는 이미 제출되어 있습니다.`);
+    } else {
+        return await postData(data);
+    }
 }

@@ -42,13 +42,20 @@ function backgroundFunction() {
         } else {
             if (isSucceed()) {
                 stopBackgroundFunction();
-                modalThread = setInterval(async () => {
-                    // 정답 modal이 꺼지면 page refresh를 통해서 initializer()이 동작하게 함.
-                    if (isClosedModal()) {
-                        stopModalThread();
-                        refreshPage();
-                    }
-                }, 100);
+
+                if (isHavingSubmissionHistory()) {
+                    modalThread = setInterval(async () => {
+                        // 정답 modal이 꺼지면 page refresh를 통해서 initializer()이 동작하게 함.
+                        if (isClosedModal()) {
+                            stopModalThread();
+                            refreshPage();
+                        }
+                    }, 100);
+                } else {
+                    const data = getSingleParseData();
+                    if (data === true) 
+                        alert("<oj timer> : 업로드 완료!");
+                }
             }
         }
     }, 2000);
@@ -67,4 +74,14 @@ function stopModalThread() {
 function isClosedModal() {
     const modal = document.querySelector("#modal-dialog").getAttribute("style");
     return modal.includes("none");
+}
+
+
+// 제출 기록 테이블이 있는 지 확인하는 함수
+function isHavingSubmissionHistory() {
+    const history = document.querySelector('.submission-history-title');
+
+    if (history === undefined || history === null) return false;
+
+    return true;
 }

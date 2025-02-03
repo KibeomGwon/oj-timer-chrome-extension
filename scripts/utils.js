@@ -81,8 +81,8 @@ String.prototype.unescapeHtml = function () {
  * @return boolean
  */
 async function isActive() {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get("isActive", (result) => {
+  return new Promise( async (resolve, reject) => {
+    await chrome.storage.local.get("isActive", (result) => {
       if (chrome.runtime.lastError) {
         reject(chrome.runtime.lastError);
       } else {

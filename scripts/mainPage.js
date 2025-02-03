@@ -9,13 +9,11 @@ async function setTokens() {
 
     const { accessToken, refreshToken } = await response.json();
 
-    console.log(accessToken, ", ", refreshToken);
-
-    chrome.storage.local.set({ accessToken : accessToken }, () => {
+    await chrome.storage.local.set({ accessToken : accessToken }, () => {
         console.log("AcessToken is stored in local");
     });
 
-    chrome.storage.local.set({ refreshToken : refreshToken }, () => {
+    await chrome.storage.local.set({ refreshToken : refreshToken }, () => {
         console.log("RefreshToken is stored in local");
     });
 }
@@ -37,7 +35,7 @@ async function checkPrePage() {
     // 이전 페이지가 있을 때
     if (prePage !== undefined && prePage !== null) {
 
-        if (prePage.includes("programmers")) await setReload();    // 이전 페이지가 프로그래머스이면 리로드 설정정
+        // if (prePage.includes("programmers")) await setReload();    // 이전 페이지가 프로그래머스이면 리로드 설정정
 
         chrome.storage.local.set({ prePage : null })
         .then(() => {
@@ -47,10 +45,6 @@ async function checkPrePage() {
     }
 }
 
-async function setReload() {
-    chrome.storage.local.set({ reload : true })
-    .then(() => console.log("reload is set to true"));
-}
 
 async function isLogined() {
     const url = window.location.href;
@@ -59,6 +53,11 @@ async function isLogined() {
     }
 }
 
-
-setTokens();
-isLogined();
+window.onload = async () => {
+    chrome.storage.local.get('isActive', async (result) => {
+        if (result.isActive === true) {
+            await setTokens();
+            await isLogined();
+        }
+    });
+}

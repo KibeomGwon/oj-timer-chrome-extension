@@ -55,6 +55,7 @@
         "http://localhost:8080/*"
       ],
       "js" : [
+        "scripts/utils.js",
         "scripts/authorization.js",
         "scripts/mainPage.js"
       ],

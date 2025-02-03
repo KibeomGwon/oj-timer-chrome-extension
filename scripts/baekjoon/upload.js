@@ -21,7 +21,7 @@ async function isUploadedProblemOnServer(problem) {
  *  TODO : 에러 처리를 어떻게 할 것인지, modal로 업로드 됐는 지 확인창 띄우기.
  */
 async function uploadToServer(datas) {
-    const isContinue = await refreshTokens();
+    const isContinue = await refreshTokens("다시 로그인 해야합니다.");
     if (isContinue === false) return;
 
     for (let i = 0; i < datas.length; i++) {
@@ -32,7 +32,10 @@ async function uploadToServer(datas) {
         if (response.ok) {
             console.log(`${datas[i].elementId}는 이미 저장되었습니다.`);        
         } else {
-            await postData(parsedData);
+            const successList = await postData(parsedData);
+            if (successList.every(li => li)) {
+                alert("<oj timer> : 저장완료");
+            }
         }
     }  
 }
@@ -50,10 +53,14 @@ async function postData(data) {
     })
     .catch(error => console.error(error));
 
+    const successList = []
+
     if (response.ok) {
         const data = await response.json();
         console.log(data.problemTitle);
-        alert("<oj timer> : 저장완료");
+        successList.push(true);
+    } else {
+        successList.push(false);
     }
 }
 
