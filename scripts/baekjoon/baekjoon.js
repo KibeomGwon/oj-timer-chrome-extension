@@ -31,7 +31,12 @@ function backgroundFunction() {
         const table = findFromResultTable();
         console.log("<oj timer> 업로드를 시작합니다.");
         stopBackgroundFunction();
-        await uploadToServer(table);
+        const successList = await uploadToServer(table);
+        if (successList.every(li => li)) {
+          alert("<oj timer> : 업로드 완료!");
+        } else {
+          alert("<oj timer> : 업로드 실패ㅠㅠ");
+        }
       }
     }
   }, 2000);
@@ -40,16 +45,4 @@ function backgroundFunction() {
 function stopBackgroundFunction() {
   clearInterval(thread);
   thread = null;
-}
-
-/**
- * test용 함수
- * 제출 번호를 출력함.
- */
-function logSubmittionTime(table) {
-  if (table.length === 0) console.log("제출이 없습니다.");
-
-  table.forEach((x) => {
-    console.log(x.submissionTime);
-  });
 }

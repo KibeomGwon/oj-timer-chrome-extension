@@ -24,6 +24,8 @@ async function uploadToServer(datas) {
     const isContinue = await refreshTokens("다시 로그인 해야합니다.");
     if (isContinue === false) return;
 
+    const successList = [];
+
     for (let i = 0; i < datas.length; i++) {
         const response = await isUploadedProblemOnServer(datas[i]);
         const parsedData = await parseDataToServerDataForm(datas[i]);
@@ -32,12 +34,12 @@ async function uploadToServer(datas) {
         if (response.ok) {
             console.log(`${datas[i].elementId}는 이미 저장되었습니다.`);        
         } else {
-            const successList = await postData(parsedData);
-            if (successList.every(li => li)) {
-                alert("<oj timer> : 저장완료");
-            }
+            const result = await postData(parsedData);
+            successList.push(result);
         }
     }  
+    
+    return successList;
 }
 
 async function postData(data) {
@@ -53,14 +55,11 @@ async function postData(data) {
     })
     .catch(error => console.error(error));
 
-    const successList = []
-
     if (response.ok) {
         const data = await response.json();
-        console.log(data.problemTitle);
-        successList.push(true);
+        return true;
     } else {
-        successList.push(false);
+        return false;
     }
 }
 

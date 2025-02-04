@@ -53,8 +53,11 @@ function backgroundFunction() {
                     }, 100);
                 } else {
                     const data = getSingleParseData();
-                    if (data === true) 
+                    const success = await uploadSingleDataToServer(data);
+                    if (success === true) 
                         alert("<oj timer> : 업로드 완료!");
+                    else 
+                        alert("<oj timer> : 업로드 실패ㅠㅠ");
                 }
             }
         }
