@@ -1,3 +1,5 @@
+const baseUrl = getServerURL();
+
 async function getAccessToken() {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get("accessToken", (result) => {
@@ -30,7 +32,7 @@ async function refreshTokens(alertString) {
   console.log("start refresh tokens");
   const token = await getRefreshToken();
 
-  const response = await fetch("http://localhost:8080/api/refresh-jwt", {
+  const response = await fetch(`${baseUrl}/api/refresh-jwt`, {
     method : "get",
     headers: {
       Authorization: getAuthorizationHeaderString(token),

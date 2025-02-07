@@ -1,3 +1,5 @@
+const baseUrl = getServerURL();
+
 /**
  * 해당 값이 null 또는 undefined인지 체크합니다.
  * @param {any} value - 체크할 값
@@ -93,7 +95,7 @@ async function isActive() {
 }
 
 function goMainPage() { 
-  location.href = 'http://localhost:8080';
+  location.href = `${baseUrl}`;
 }
 
 function refreshPage() {

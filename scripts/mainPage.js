@@ -1,5 +1,7 @@
+const baseUrl = getServerURL()
+
 async function setTokens() {
-    const response =  await fetch("http://localhost:8080/api/authorization/jwts", {
+    const response =  await fetch(`${baseUrl}/api/authorization/jwts`, {
         method : "get",
         headers : {
           "Content-type" : "application/json",

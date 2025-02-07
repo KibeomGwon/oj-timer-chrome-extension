@@ -1,3 +1,5 @@
+const baseUrl = getServerURL();
+
 window.onload = async function () {
   await init();
   const startButton = document.getElementById("start-button");
@@ -61,13 +63,13 @@ function testFunction() {
 }
 
 function clickHomePageDiv() {
-  window.open("http://localhost:8080");
+  window.open(`${baseUrl}`);
 }
 
 async function isAuthenticated(accessToken) {
   console.log(accessToken);
 
-  const response = await fetch("http://localhost:8080/api/authorization", {
+  const response = await fetch(`${baseUrl}/api/authorization`, {
     method: "get",
 
     headers: {
