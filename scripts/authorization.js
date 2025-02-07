@@ -1,4 +1,4 @@
-const baseUrl = getServerURL();
+const serverUrl = "https://oj-timer.site";
 
 async function getAccessToken() {
   return new Promise((resolve, reject) => {
@@ -32,7 +32,7 @@ async function refreshTokens(alertString) {
   console.log("start refresh tokens");
   const token = await getRefreshToken();
 
-  const response = await fetch(`${baseUrl}/api/refresh-jwt`, {
+  const response = await fetch(`${serverUrl}/api/refresh-jwt`, {
     method : "get",
     headers: {
       Authorization: getAuthorizationHeaderString(token),

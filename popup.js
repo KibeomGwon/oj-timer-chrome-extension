@@ -1,5 +1,3 @@
-const baseUrl = getServerURL();
-
 window.onload = async function () {
   await init();
   const startButton = document.getElementById("start-button");
@@ -63,13 +61,13 @@ function testFunction() {
 }
 
 function clickHomePageDiv() {
-  window.open(`${baseUrl}`);
+  window.open(`https://oj-timer.site`);
 }
 
 async function isAuthenticated(accessToken) {
   console.log(accessToken);
 
-  const response = await fetch(`${baseUrl}/api/authorization`, {
+  const response = await fetch(`https://oj-timer.site/api/authorization`, {
     method: "get",
 
     headers: {

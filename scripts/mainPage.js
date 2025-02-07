@@ -1,4 +1,4 @@
-const baseUrl = getServerURL()
+const baseUrl = "https://oj-timer.site";
 
 async function setTokens() {
     const response =  await fetch(`${baseUrl}/api/authorization/jwts`, {

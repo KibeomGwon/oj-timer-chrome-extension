@@ -1,4 +1,4 @@
-const baseUrl = `${getServerURL()}/api`;
+const baseUrl = "https://oj-timer.site/api";
 
 // 업로드 한 기록이 있는 지 확인하는 함수 필요
 // api를 만들어서 제출 아이디와 유저 아이디, 그리고 제출 날짜를 기준으로 판별

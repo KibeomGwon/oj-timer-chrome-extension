@@ -41,7 +41,6 @@
         "https://www.acmicpc.net/*"
       ],
       "js" : [
-        "config.js",
         "scripts/utils.js",
         "scripts/authorization.js",
         "scripts/baekjoon/variables.js",
@@ -53,10 +52,9 @@
     },
     {
       "matches" : [
-        "http://localhost:8080/*"
+        "https://oj-timer.site/*"
       ],
       "js" : [
-        "config.js",
         "scripts/utils.js",
         "scripts/authorization.js",
         "scripts/mainPage.js"
@@ -68,7 +66,6 @@
         "https://school.programmers.co.kr/*"
       ],
       "js" : [
-        "config.js",
         "scripts/utils.js",
         "scripts/authorization.js",
         "scripts/programmers/utils.js",
